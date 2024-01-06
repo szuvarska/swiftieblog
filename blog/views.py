@@ -4,10 +4,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
 from django.utils import timezone
+from django.contrib.auth import logout
 
 from .forms import CommentForm
 from .models import Article, ForumPost, Comment
-from allauth.account.views import SignupView
+from allauth.account.views import SignupView, LoginView
 
 
 def main_page(request):
@@ -38,20 +39,6 @@ def user_account(request):
     return render(request, 'user_account.html', context)
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)  # Log in the user after registration
-            messages.success(request, 'Registration successful!')
-            return redirect('main_page')  # Redirect to the main page or another view
-    else:
-        form = UserCreationForm()
-
-    return render(request, 'register.html', {'form': form})
-
-
 def articles(request):
     articles = Article.objects.order_by('-pub_date')
     context = {'list_of_articles': articles}
@@ -77,22 +64,11 @@ def article(request, article_id):
     return render(request, 'blog/post.html', context=context)
 
 
-class CustomSignupView(SignupView):
-    template_name = 'registration/signup.html'  # Customize this to your template path
+def custom_login(request, **kwargs):
+    print('Using custom login template')
+    return LoginView.as_view(template_name='registration/login.html')(request, **kwargs)
 
-    def form_valid(self, form):
-        # Your custom logic after the form is successfully validated
-        response = super().form_valid(form)
-        # Add any additional logic here
-        return response
 
-    def form_invalid(self, form):
-        # Your custom logic if the form is invalid
-        response = super().form_invalid(form)
-        # Add any additional logic here
-        return response
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Add additional context data if needed
-        return context
+def custom_logout(request):
+    logout(request)
+    return redirect('/')

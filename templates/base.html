@@ -18,6 +18,15 @@
             Nie ma nic.
         {% endblock %}
     </main>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}! <!-- Display user's information if authenticated -->
+            <a href="{% url 'account_logout' %}">Logout</a>
+        </p>
+        {% else %}
+            <p>
+                <a href="{% url 'account_login' %}">Login</a> <!-- Display sign-in button if not authenticated -->
+            </p>
+    {% endif %}
 
     <footer>
         {% include "footer.html" %}

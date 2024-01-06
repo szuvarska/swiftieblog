@@ -16,7 +16,6 @@ from allauth.account.app_settings import EmailVerificationMethod
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = 'django-insecure-3384-!ghu50mg#cl0q@rk6ueaoo7$1)wiy3p4-+o#qe1+v4mn-
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -74,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'swiftieblog.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -84,7 +81,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -104,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -116,13 +111,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
- os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Default primary key field type
@@ -141,6 +135,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For developm
 
 # Additional email settings (e.g., EMAIL_HOST, EMAIL_PORT, EMAIL_USE_TLS, etc.)
 
-ACCOUNT_EMAIL_VERIFICATION = EmailVerificationMethod.MANDATORY
+ACCOUNT_EMAIL_VERIFICATION = EmailVerificationMethod.OPTIONAL
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Number of days before confirmation link expires
 ACCOUNT_EMAIL_SUBJECT_PREFIX = '[Swiftie Blog] '  # Email subject prefix
+
+ACCOUNT_SIGNUP_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
