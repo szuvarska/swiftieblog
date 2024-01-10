@@ -1,3 +1,175 @@
+/* styles.css */
 body {
-    background-color: hotpink;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center; /* Center the entire content */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: inline-block; /* Prevents full-width behavior */
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.right-corner {
+    text-align: right;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    display: inline-block;
+}
+
+.dropbtn {
+    color: white;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.container {
+    padding: 20px;
+}
+
+/* Header Styles */
+header {
+    position: relative;
+}
+
+.header-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.header-image img {
+    width: 100%;
+    height: auto;
+}
+
+.blog-name {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 36px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    font-family: 'Dancing Script', cursive;
+    letter-spacing: 2px;
+}
+
+.center-footer {
+    text-align: center;
+    padding: 5px;
+    background-color: #333;
+    color: white;
+}
+
+.article-container {
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Article Styles */
+.article {
+    width: 95%; /* Adjust based on your layout preference */
+    max-width: 1400px; /* Set a maximum width if needed */
+    background-color: #f5f5f5;
+    padding: 20px;
+    margin: 20px auto;
+}
+
+.article h2 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.article-author {
+    font-size: 1rem;
+    color: #555; /* Set a color that complements your design */
+    margin-bottom: 5px;
+}
+
+.article-content {
+    margin-bottom: 10px;
+    text-align: justify;
+    color: #333; /* Set text color for content */
+    float: left;
+}
+
+.article-picture {
+    width: 30%; /* Adjust the width of the picture as needed */
+    height: auto;
+    max-height: 300px; /* Set a maximum height or adjust as needed */
+    object-fit: contain; /* Maintain aspect ratio and fit within the container */
+    float: right; /* Float the picture to the right */
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+/* Continue Reading Link Styles */
+.article a {
+    color: #555; /* Set link color to a neutral color */
+    text-decoration: none; /* Remove default underline */
+    font-weight: bold; /* Make the text bold */
+    transition: color 0.3s ease; /* Add a smooth color transition on hover */
+}
+
+.article a:hover {
+    color: #333; /* Change link color on hover */
 }

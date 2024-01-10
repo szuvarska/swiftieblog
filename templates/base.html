@@ -4,34 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Your Website Title{% endblock %}</title>
+    <title>{% block title %}Swiftie Blog{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href={% static 'blog/style.css' %}>
 </head>
 <body>
+
+        <nav>
+        <div class="container">
+            <div class="center-items">
+                <ul>
+                    <li><a href="{% url 'main_page' %}">Home</a></li>
+                    <li><a href="{% url 'articles' %}">Articles</a></li>
+                    <li><a href="{% url 'forum' %}">Forum</a></li>
+                </ul>
+            </div>
+            <div class="right-corner">
+                {% if user.is_authenticated %}
+                    <div class="dropdown" id="userDropdown">
+                        <button onclick="toggleDropdown()" class="dropbtn">Welcome, {{ user.username }}!</button>
+                        <div id="userDropdownContent" class="dropdown-content">
+                            <a href="{% url 'user_account' %}">User Account</a>
+                            <a href="{% url 'account_logout' %}">Logout</a>
+                        </div>
+                    </div>
+{#                    <p>Welcome, {{ user.username }}! <!-- Display user's information if authenticated -->#}
+{#                        <a href="{% url 'account_logout' %}">Logout</a>#}
+{#                    </p>#}
+                {% else %}
+                    <p>
+                        <a href="{% url 'account_login' %}">Login</a> <!-- Display sign-in button if not authenticated -->
+                    </p>
+    {% endif %}
+            </div>
+        </div>
+    </nav>
+
+        <!-- Header Section -->
     <header>
-        <h1>Your Website Header</h1>
-        <!-- Add your navigation bar or other header content here -->
+        <div class="header-image">
+            <!-- Adjust the path to your image -->
+            <img src="{% static 'images/header.webp' %}" alt="Header Image">
+            <h1 class="blog-name">Swiftie Blog & Forum</h1>
+        </div>
     </header>
 
-    <main>
-        {% block content %}
-            Nie ma nic.
-        {% endblock %}
-    </main>
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}! <!-- Display user's information if authenticated -->
-            <a href="{% url 'account_logout' %}">Logout</a>
-        </p>
-        {% else %}
-            <p>
-                <a href="{% url 'account_login' %}">Login</a> <!-- Display sign-in button if not authenticated -->
-            </p>
-    {% endif %}
+    <!-- Page Content -->
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
 
-    <footer>
+    <footer class="center-footer">
         {% include "footer.html" %}
     </footer>
-
-    <!-- Add your JavaScript links or scripts here -->
 </body>
 </html>

@@ -61,7 +61,7 @@ def article(request, article_id):
         form = CommentForm()
 
     context = {'article': article, 'comments': comments, 'form': form}
-    return render(request, 'blog/post.html', context=context)
+    return render(request, 'article.html', context=context)
 
 
 def custom_login(request, **kwargs):

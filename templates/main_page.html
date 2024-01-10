@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Main Page</h1>
 
 {% if latest_articles %}
-    <ul>
-        {% for article in latest_articles %}
-            <li>
-                <h3>{{ article.title }}</h3>
-                <p>{{ article.content }}</p>
-                <p>Published on: {{ article.pub_date }}</p>
-                <p>Author: {{ article.author.username }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="article-container">
+    {% for article in latest_articles %}
+        <div class="article">
+            <div class="article-author">{{ article.author }}</div>
+            <h2>{{ article.title }}</h2>
+            <div class="article-content">
+                <a href="{% url 'article' article.id %}">
+                    <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="article-picture">
+                </a>
+                {{ article.content|truncatewords:250 }}
+            </div>
+            <a href="{% url 'article' article.id %}">Continue reading</a>
+        </div>
+    {% endfor %}
+    </div>
 {% else %}
     <p>No articles available.</p>
 {% endif %}

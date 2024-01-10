@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Account</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <h1>User Account</h1>
 
     <p>Username: {{ user_info.username }}</p>
     <p>Email: {{ user_info.email }}</p>
     <!-- Add more user-related information as needed -->
-</body>
-</html>
+{% endblock %}}

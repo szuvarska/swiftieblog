@@ -10,6 +10,6 @@ urlpatterns = [
     path('forum/', views.forum, name='forum'),
     path('user_account/', views.user_account, name='user_account'),
     path('accounts/signup/', SignupView.as_view(template_name='registration/signup.html'), name='account_signup'),
-    path('accounts/login/', LoginView.as_view(template_name='registration/signup.html'), name='account_login'),
+    path('accounts/login/', LoginView.as_view(template_name='registration/login.html'), name='account_login'),
     path('accounts/logout/', custom_logout, name='account_logout'),
 ]
