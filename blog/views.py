@@ -1,15 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Max
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from django.contrib import messages
 from django.utils import timezone
 from django.contrib.auth import logout
 
-from .forms import CommentForm
+from .forms import CommentForm, ForumPostForm, SubjectForm
 from .models import Article, ForumPost, Comment, Subject, Category
-from allauth.account.views import SignupView, LoginView
+from allauth.account.views import LoginView
 
 
 def main_page(request):
@@ -72,12 +69,12 @@ def forum(request):
     categories = Category.objects.annotate(
         subjects_count=Count('subjects'),
         posts_count=Count('subjects__forumpost'),
-        last_post_date = Max('subjects__forumpost__pub_date'),
-        last_post_author = Max('subjects__forumpost__author__username')
+        last_post_date=Max('subjects__forumpost__pub_date'),
+        last_post_author=Max('subjects__forumpost__author__username')
     )
 
     context = {'categories': categories}
-    return render(request, 'forum.html', context)
+    return render(request, 'forum/forum.html', context)
 
 
 def category_detail(request, category_id):
@@ -85,15 +82,51 @@ def category_detail(request, category_id):
     subjects = category.subjects.all()
 
     context = {'category': category, 'subjects': subjects}
-    return render(request, 'category_detail.html', context)
+    return render(request, 'forum/category_detail.html', context)
 
 
 def subject_detail(request, subject_id):
     subject = Subject.objects.get(pk=subject_id)
     posts = ForumPost.objects.filter(subject=subject)
-    return render(request, 'subject_detail.html', {'subject': subject, 'posts': posts})
+    return render(request, 'forum/subject_detail.html', {'subject': subject, 'posts': posts})
 
 
 def post_detail(request, post_id):
     post = get_object_or_404(ForumPost, id=post_id)
-    return render(request, 'post_detail.html', {'post': post})
+    return render(request, 'forum/post_detail.html', {'post': post})
+
+
+@login_required
+def add_post(request, subject_id):
+    subject = get_object_or_404(Subject, id=subject_id)
+
+    if request.method == 'POST':
+        form = ForumPostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.subject = subject
+            post.author = request.user
+            post.save()
+            return redirect('post_detail', post_id=post.id)
+    else:
+        form = ForumPostForm()
+
+    return render(request, 'add_post.html', {'form': form, 'subject': subject})
+
+
+@login_required
+def add_subject(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        form = SubjectForm(request.POST)
+        if form.is_valid():
+            subject = form.save(commit=False)
+            subject.category = category
+            subject.author = request.user
+            subject.save()
+            return redirect('category_detail', category_id=category.id)
+    else:
+        form = SubjectForm()
+
+    return render(request, 'add_subject.html', {'form': form, 'category': category})
