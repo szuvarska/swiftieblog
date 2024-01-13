@@ -173,3 +173,32 @@ header {
 .article a:hover {
     color: #333; /* Change link color on hover */
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  td a {
+    text-decoration: none;
+    color: #0066cc;
+  }
+
+  td a:hover {
+    text-decoration: underline;
+  }

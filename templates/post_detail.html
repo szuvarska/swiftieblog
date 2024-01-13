@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ post.subject.title }} - Post Details</h1>
+  <p>Author: {{ post.author.username }}</p>
+  <p>Published on: {{ post.pub_date|date:"F j, Y" }}</p>
+  <p>{{ post.content }}</p>
+{% endblock %}

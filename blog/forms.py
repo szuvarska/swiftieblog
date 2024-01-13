@@ -13,3 +13,5 @@ class CommentForm(forms.Form):
         m = len(self.data['comment'])
         if not (n + m) % 3 == 0:
             raise ValidationError("Suma nie jest podzielna przez 3")
+
+

@@ -1,19 +1,33 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
-    <h1>Forum</h1>
+  <div class="forum">
+    <h2>Taylor Swift Forum</h2>
 
-    {% if latest_forum_posts %}
-        <ul>
-            {% for post in latest_forum_posts %}
-                <li>
-                    <h3>{{ post.title }}</h3>
-                    <p>{{ post.content }}</p>
-                    <p>Published on: {{ post.pub_date }}</p>
-                    <p>Author: {{ post.author.username }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No forum posts available.</p>
-    {% endif %}
-{% endblock %}}
+    <table class="forum-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Number of Subjects</th>
+          <th>Number of Posts</th>
+          <th>Last Post</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+            <tr>
+                <td><a href="{% url 'category_detail' category.id %}">{{ category.name }}</a></td>
+                <td>{{ category.subjects_count }}</td>
+                <td>{{ category.posts_count }}</td>
+                <td>
+                  {% if category.last_post_date %}
+                    {{ category.last_post_date|date:"F j, Y" }} by {{ category.last_post_author }}
+                  {% else %}
+                    No posts
+                  {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

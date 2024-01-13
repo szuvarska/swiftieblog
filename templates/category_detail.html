@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Category: {{ category.name }}</h3>
+
+  <table class="forum-table">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Author</th>
+        <th>Posts</th>
+        <th>Last Post</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subject in subjects %}
+        <tr>
+          <td><a href="{% url 'subject_detail' subject.id %}">{{ subject.title }}</a></td>
+          <td>{{ subject.author.username }}</td>
+          <td>{{ subject.forumpost_set.count }}</td>
+          <td>
+              {% with last_post=subject.forumpost_set.last %}
+                {% if last_post %}
+                  {{ last_post.pub_date|date:"F j, Y" }} by {{ last_post.author.username }}
+                {% else %}
+                  No posts
+                {% endif %}
+              {% endwith %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
