@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
+    'forum.apps.ForumConfig',
 ]
 
 MIDDLEWARE = [
