@@ -178,27 +178,27 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-  }
+}
 
-  th, td {
+th, td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-  }
+}
 
-  th {
+th {
     background-color: #f2f2f2;
-  }
+}
 
-  tr:nth-child(even) {
+tr:nth-child(even) {
     background-color: #f9f9f9;
-  }
+}
 
-  td a {
+td a {
     text-decoration: none;
     color: #0066cc;
-  }
+}
 
-  td a:hover {
+td a:hover {
     text-decoration: underline;
-  }
+}

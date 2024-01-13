@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Max
+from django.db.models import Count, Max, Subquery, OuterRef
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth import logout
@@ -69,8 +69,13 @@ def forum(request):
     categories = Category.objects.annotate(
         subjects_count=Count('subjects'),
         posts_count=Count('subjects__forumpost'),
-        last_post_date=Max('subjects__forumpost__pub_date'),
-        last_post_author=Max('subjects__forumpost__author__username')
+        last_post_date=Subquery(
+            ForumPost.objects.filter(subject__category=OuterRef('pk')).order_by('-pub_date').values('pub_date')[:1]
+        ),
+        last_post_author=Subquery(
+            ForumPost.objects.filter(subject__category=OuterRef('pk')).order_by('-pub_date').values('author__username')[
+            :1]
+        )
     )
 
     context = {'categories': categories}
@@ -81,24 +86,32 @@ def category_detail(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     subjects = category.subjects.all()
 
-    context = {'category': category, 'subjects': subjects}
+    if request.method == 'POST':
+        subject_form = SubjectForm(request.POST)
+        if subject_form.is_valid():
+            # Create the first post for the new subject
+            post_content = request.POST.get('post_content')  # Adjust accordingly based on your form field name
+            subject = subject_form.save(commit=False)
+            post = ForumPost(content=post_content, author=request.user, subject=subject)
+            subject.category = category
+            subject.author = request.user
+            subject.save()
+            post.save()
+
+            # Clear the form after successful submission
+            subject_form = SubjectForm()
+
+            return redirect('category_detail', category_id=category.id)
+    else:
+        subject_form = SubjectForm()
+
+    context = {'category': category, 'subjects': subjects, 'subject_form': subject_form}
     return render(request, 'forum/category_detail.html', context)
 
 
 def subject_detail(request, subject_id):
-    subject = Subject.objects.get(pk=subject_id)
-    posts = ForumPost.objects.filter(subject=subject)
-    return render(request, 'forum/subject_detail.html', {'subject': subject, 'posts': posts})
-
-
-def post_detail(request, post_id):
-    post = get_object_or_404(ForumPost, id=post_id)
-    return render(request, 'forum/post_detail.html', {'post': post})
-
-
-@login_required
-def add_post(request, subject_id):
     subject = get_object_or_404(Subject, id=subject_id)
+    posts = ForumPost.objects.filter(subject=subject).order_by('pub_date')
 
     if request.method == 'POST':
         form = ForumPostForm(request.POST)
@@ -107,26 +120,16 @@ def add_post(request, subject_id):
             post.subject = subject
             post.author = request.user
             post.save()
-            return redirect('post_detail', post_id=post.id)
+
+            # Clear the form after successful submission
+            form = ForumPostForm()
     else:
         form = ForumPostForm()
 
-    return render(request, 'add_post.html', {'form': form, 'subject': subject})
+    context = {'subject': subject, 'posts': posts, 'form': form}
+    return render(request, 'forum/subject_detail.html', context)
 
 
-@login_required
-def add_subject(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-
-    if request.method == 'POST':
-        form = SubjectForm(request.POST)
-        if form.is_valid():
-            subject = form.save(commit=False)
-            subject.category = category
-            subject.author = request.user
-            subject.save()
-            return redirect('category_detail', category_id=category.id)
-    else:
-        form = SubjectForm()
-
-    return render(request, 'add_subject.html', {'form': form, 'category': category})
+def post_detail(request, post_id):
+    post = get_object_or_404(ForumPost, id=post_id)
+    return render(request, 'forum/post_detail.html', {'post': post})

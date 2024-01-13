@@ -19,4 +19,22 @@
         {% endfor %}
     </tbody>
 </table>
+{% if user.is_authenticated %}
+<h3>Add a new post</h3>
+  <form method="post" action="">
+    {% csrf_token %}
+      <table class="form-table">
+              {% for field in form %}
+                <tr>
+                  <td>{{ field.label_tag }}</td>
+                  <td>{{ field }}</td>
+                </tr>
+              {% endfor %}
+      </table>
+    <br />
+    <button type="submit">Post</button>
+  </form>
+{% else %}
+<p>Please log in to add new posts.</p>
+{% endif %}
 {% endblock %}

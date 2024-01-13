@@ -31,4 +31,22 @@
       {% endfor %}
     </tbody>
   </table>
+  {% if user.is_authenticated %}
+      <h2>Add new subject</h2>
+      <form method="post" action="">
+          {% csrf_token %}
+          <table class="form-table">
+              {% for field in subject_form %}
+                <tr>
+                  <td>{{ field.label_tag }}</td>
+                  <td>{{ field }}</td>
+                </tr>
+              {% endfor %}
+          </table>
+            <br />
+          <button type="submit">Add subject</button>
+      </form>
+  {% else %}
+  <p>Please log in to add new subjects.</p>
+  {% endif %}
 {% endblock %}
