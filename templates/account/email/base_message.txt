@@ -1,0 +1,8 @@
+{% load i18n %}{% autoescape off %}
+Welcome to Swiftie Blog & Forum!
+
+{% block content %}{% endblock content %}
+
+Regards,
+Swiftie Blog & Forum
+{% endautoescape %}

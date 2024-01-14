@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-3384-!ghu50mg#cl0q@rk6ueaoo7$1)wiy3p4-+o#qe1+v4mn-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 # Application definition
 
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
+    'forum.apps.ForumConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
-    'forum.apps.ForumConfig',
 ]
 
 MIDDLEWARE = [
@@ -131,15 +131,30 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development/debugging
-# Set up a production-ready email backend for deployment
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
 
-# Additional email settings (e.g., EMAIL_HOST, EMAIL_PORT, EMAIL_USE_TLS, etc.)
-
-ACCOUNT_EMAIL_VERIFICATION = EmailVerificationMethod.OPTIONAL
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Number of days before confirmation link expires
-ACCOUNT_EMAIL_SUBJECT_PREFIX = '[Swiftie Blog] '  # Email subject prefix
+ACCOUNT_EMAIL_SUBJECT_PREFIX = '[Swiftie Blog & Forum] '  # Email subject prefix
 
 ACCOUNT_SIGNUP_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/confirmation_signup'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/accounts/confirmation_signup'
+ACCOUNT_EMAIL_CONFIRMATION_EMAIL = True
+ACCOUNT_EMAIL_CONFIRMATION_SIGNUP_MESSAGE = 'account/email/email_confirmation_message.txt'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
+ACCOUNT_EMAIL_CONFIRMATION_TEMPLATE = 'account/verification_sent.html'
+ACCOUNT_EMAIL_CONFIRMATION_SUCCESS_URL = 'account/confirmation_signup.html'
+
+
+ACCOUNT_FORMS = {
+    'signup': 'blog.forms.CustomSignupForm',
+}

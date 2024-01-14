@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth import logout
 
-from .forms import CommentForm
+from .forms import CommentForm, CustomSignupForm
 from .models import Article, Comment
-from allauth.account.views import LoginView
+from allauth.account.views import LoginView, SignupView
 
 
 def main_page(request):
@@ -56,7 +56,7 @@ def article(request, article_id):
 
 def custom_login(request, **kwargs):
     print('Using custom login template')
-    return LoginView.as_view(template_name='registration/login.html')(request, **kwargs)
+    return LoginView.as_view(template_name='account/login.html')(request, **kwargs)
 
 
 def custom_logout(request):
@@ -64,4 +64,9 @@ def custom_logout(request):
     return redirect('/')
 
 
+class CustomSignupView(SignupView):
+    form_class = CustomSignupForm  # Use your custom form
 
+
+def confirmation_signup(request):
+    return render(request, 'account/confirmation_signup.html')

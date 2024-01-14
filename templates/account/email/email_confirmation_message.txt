@@ -1,0 +1,8 @@
+{% extends "account/email/base_message.txt" %}
+{% load account %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% user_display user as user_display %}
+You're receiving this email because user {{ user_display }} has given your email address to register an account on Swiftie Blog & Forum.
+
+To confirm this is correct, go to {{ activate_url }}{% endautoescape %}{% endblock content %}
