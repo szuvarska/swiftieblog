@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -157,4 +158,12 @@ ACCOUNT_EMAIL_CONFIRMATION_SUCCESS_URL = 'account/confirmation_signup.html'
 
 ACCOUNT_FORMS = {
     'signup': 'blog.forms.CustomSignupForm',
+}
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': 800,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
 }

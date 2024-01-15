@@ -11,7 +11,7 @@
                 <a href="{% url 'article' article.id %}">
                     <img src="{{ article.picture.url }}" alt="{{ article.title }}" class="article-picture">
                 </a>
-                {{ article.content|truncatewords:250 }}
+                {{ article.content|truncatewords:250|safe}}
             </div>
             <a href="{% url 'article' article.id %}">Continue reading</a>
         </div>
