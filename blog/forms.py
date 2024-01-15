@@ -1,24 +1,8 @@
 from allauth.account.forms import SignupForm
-from django.core.exceptions import ValidationError
-from django import forms
-from django.core.validators import RegexValidator
-
-
-class CommentForm(forms.Form):
-    your_name = forms.CharField(max_length=64, validators=[RegexValidator(r'[A-Z][a-z]+',
-                                                                          message="Zacznij od duzej")])
-    comment = forms.CharField(max_length=1000, widget=forms.Textarea)
-
-    def clean(self):
-        n = len(self.data['your_name'])
-        m = len(self.data['comment'])
-        if not (n + m) % 3 == 0:
-            raise ValidationError("Suma nie jest podzielna przez 3")
 
 
 class CustomSignupForm(SignupForm):
     def __init__(self, *args, **kwargs):
         super(CustomSignupForm, self).__init__(*args, **kwargs)
 
-        # Set the email field as required
         self.fields['email'].required = True

@@ -14,13 +14,6 @@ class Article(models.Model):
         return self.title
 
 
-class Comment(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    content = models.TextField()
-    author = models.CharField(max_length=31)
-    pub_date = models.DateTimeField()
-
-
 class UserAccount(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     confirmation_code = models.CharField(max_length=50)

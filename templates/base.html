@@ -28,9 +28,6 @@
                             <a href="{% url 'account_logout' %}">Logout</a>
                         </div>
                     </div>
-{#                    <p>Welcome, {{ user.username }}! <!-- Display user's information if authenticated -->#}
-{#                        <a href="{% url 'account_logout' %}">Logout</a>#}
-{#                    </p>#}
                 {% else %}
                     <p>
                         <a href="{% url 'account_login' %}">Login</a> <!-- Display sign-in button if not authenticated -->
@@ -40,16 +37,13 @@
         </div>
     </nav>
 
-        <!-- Header Section -->
     <header>
         <div class="header-image">
-            <!-- Adjust the path to your image -->
             <img src="{% static 'images/header.webp' %}" alt="Header Image">
             <h1 class="blog-name">Swiftie Blog & Forum</h1>
         </div>
     </header>
 
-    <!-- Page Content -->
     <div class="container mt-4">
         {% block content %}{% endblock %}
     </div>

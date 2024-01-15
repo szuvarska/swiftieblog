@@ -29,8 +29,7 @@ def category_detail(request, category_id):
     if request.method == 'POST':
         subject_form = SubjectForm(request.POST)
         if subject_form.is_valid():
-            # Create the first post for the new subject
-            post_content = request.POST.get('post_content')  # Adjust accordingly based on your form field name
+            post_content = request.POST.get('post_content')
             subject = subject_form.save(commit=False)
             post = ForumPost(content=post_content, author=request.user, subject=subject)
             subject.category = category
@@ -38,7 +37,6 @@ def category_detail(request, category_id):
             subject.save()
             post.save()
 
-            # Clear the form after successful submission
             subject_form = SubjectForm()
 
             return redirect('category_detail', category_id=category.id)
@@ -61,7 +59,6 @@ def subject_detail(request, subject_id):
             post.author = request.user
             post.save()
 
-            # Clear the form after successful submission
             form = ForumPostForm()
     else:
         form = ForumPostForm()
