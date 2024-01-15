@@ -7,7 +7,7 @@ from .models import ForumPost, Subject, Category
 
 def forum(request):
     categories = Category.objects.annotate(
-        subjects_count=Count('subjects'),
+        subjects_count=Count('subjects__id', distinct=True),
         posts_count=Count('subjects__forumpost'),
         last_post_date=Subquery(
             ForumPost.objects.filter(subject__category=OuterRef('pk')).order_by('-pub_date').values('pub_date')[:1]
