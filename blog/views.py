@@ -16,6 +16,10 @@ def main_page(request):
     return render(request, 'main_page.html', context)
 
 
+def about(request):
+    return render(request, 'about.html')
+
+
 @login_required  # Ensures the user is logged in to access this view
 def user_account(request):
     # Retrieve the logged-in user's information
@@ -29,10 +33,10 @@ def user_account(request):
     return render(request, 'user_account.html', context)
 
 
-def articles(request):
-    articles = Article.objects.order_by('-pub_date')
-    context = {'list_of_articles': articles}
-    return render(request, 'articles.html', context=context)
+# def articles(request):
+#     articles = Article.objects.order_by('-pub_date')
+#     context = {'list_of_articles': articles}
+#     return render(request, 'about.html', context=context)
 
 
 def article(request, article_id):
