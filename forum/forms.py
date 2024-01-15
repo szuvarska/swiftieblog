@@ -1,10 +1,12 @@
 from django import forms
+from tinymce.widgets import TinyMCE
 
 from .models import ForumPost, Subject
 
 
 class ForumPostForm(forms.ModelForm):
     class Meta:
+        model = ForumPost
         model = ForumPost
         fields = ['content']
 

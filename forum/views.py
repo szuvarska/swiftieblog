@@ -59,6 +59,7 @@ def subject_detail(request, subject_id):
             post.author = request.user
             post.save()
 
+            # Clear the form after successful submission
             form = ForumPostForm()
     else:
         form = ForumPostForm()

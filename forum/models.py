@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from tinymce.models import HTMLField
 
 
 class Category(models.Model):
@@ -13,7 +14,7 @@ class Subject(models.Model):
 
 
 class ForumPost(models.Model):
-    content = models.TextField()
+    content = HTMLField()
     pub_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, default=None)
