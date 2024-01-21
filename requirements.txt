@@ -1,3 +1,6 @@
-Django==4.2.7
-django_allauth==0.60.0
-django_tinymce==3.6.1
+Django>=4.2.7
+django_allauth>=0.60.0
+django_tinymce>=3.6.1
+psycopg>=3.1.17
+psycopg2-binary>=2.9.9
+Pillow>=9.0.1
